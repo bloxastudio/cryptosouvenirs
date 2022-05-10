@@ -1,4 +1,4 @@
-# Chainlink Hackathong 2022 Smart Contract
+# Chainlink CryptoSouvenirsg 2022 Smart Contract
 
 ## Configuration
 

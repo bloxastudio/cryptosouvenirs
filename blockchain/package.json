@@ -1,10 +1,10 @@
 {
-  "name": "tmb-chainlink-hackathon-2022-blockchain",
+  "name": "crypto-souvenirs-blockchain",
   "scripts": {
     "clean": "shx rm -rf ./artifacts ./cache ./coverage ./src/types ./coverage.json",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
     "coverage": "npm run typechain && hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && npm run typechain",
-    "deploy": "hardhat deploy:Hackathon",
+    "deploy": "hardhat deploy:CryptoSouvenirs",
     "solhint": "solhint --config ./.solhint.json --max-warnings 0 \"contracts/**/*.sol\"",
     "solhint:fix": "solhint --config ./.solhint.json --max-warnings 0 \"contracts/**/*.sol\" --fix",
     "eslint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore --ext .js,.ts .",

@@ -1,5 +1,5 @@
 {
-  "name": "tmb-chainlink-hackathon-2022",
+  "name": "crypto-souvenirs",
   "scripts": {
     "lint": "cd functions && npm run lint"
   },

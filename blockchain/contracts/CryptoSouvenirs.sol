@@ -5,7 +5,7 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Hackathon is ERC721Enumerable, Ownable {
+contract CryptoSouvenirs is ERC721Enumerable, Ownable {
     string private greeting;
 
     constructor(
