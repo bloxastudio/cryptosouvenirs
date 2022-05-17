@@ -8,20 +8,26 @@ import { resolve } from "path";
 import "solidity-coverage";
 import "./tasks/accounts";
 import "./tasks/deploy";
+require('dotenv').config();
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
 const chainIds = {
   hardhat: 1337,
+  rinkeby: 4,
 };
 
 const config: HardhatUserConfig = {
   solidity: "0.8.13",
-  defaultNetwork: "hardhat",
+  defaultNetwork: "rinkeby",
   networks: {
     hardhat: {
       chainId: chainIds.hardhat,
     },
+    rinkeby: {
+      url: `${process.env.ALCHEMY_RINKEBY_URL}`,
+      accounts: [`${process.env.RINKEBY_PRIVATE_KEY}`],
+    }
   },
   typechain: {
     outDir: "src/types",
