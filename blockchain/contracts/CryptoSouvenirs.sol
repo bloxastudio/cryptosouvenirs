@@ -5,24 +5,31 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+error AlreadySold();
+
 contract CryptoSouvenirs is ERC721Enumerable, Ownable {
-    string private greeting;
+    string baseURI;
 
     constructor(
         string memory _name,
-        string memory _symbol,
-        string memory _greeting
+        string memory _symbol
     ) ERC721(_name, _symbol) {
-        console.log("Deploying a Greeter with greeting:", _greeting);
-        greeting = _greeting;
+        
     }
 
-    function greet() public view returns (string memory) {
-        return greeting;
+    function mint(string memory _tokenURI) public payable {
+        uint256 supply = totalSupply();
+        uint256 tokenId = supply + 1;
+
+        _safeMint(msg.sender, tokenId);
+        setBaseURI(_tokenURI);
     }
 
-    function setGreeting(string memory _greeting) public {
-        console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
-        greeting = _greeting;
+   function _baseURI() internal view override returns (string memory) {
+        return baseURI;
+    }
+
+    function setBaseURI(string memory _newBaseURI) public onlyOwner {
+        baseURI = _newBaseURI;
     }
 }
