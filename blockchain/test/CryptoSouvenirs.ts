@@ -17,7 +17,6 @@ describe("Unit tests", function () {
     beforeEach(async function () {
       const name = "CryptoSouvenirsNFT";
       const symbol = "CSV";
-      const greeting = "Hello, world!";
       const cryptoSouvenirsArtifact: Artifact = await artifacts.readArtifact(
         "CryptoSouvenirs"
       );
@@ -26,20 +25,19 @@ describe("Unit tests", function () {
         await waffle.deployContract(
           this.signers.admin,
           cryptoSouvenirsArtifact,
-          [name, symbol, greeting]
+          [name, symbol]
         )
       );
     });
 
-    it("should return the new greeting once it's changed", async function () {
+    it("should return the name and the symbol of the ERC721 token.", async function () {
       expect(
-        await this.cryptoSouvenirs.connect(this.signers.admin).greet()
-      ).to.equal("Hello, world!");
+        await this.cryptoSouvenirs.connect(this.signers.admin).name()
+      ).to.equal("CryptoSouvenirsNFT");
 
-      await this.cryptoSouvenirs.setGreeting("Bonjour, le monde!");
       expect(
-        await this.cryptoSouvenirs.connect(this.signers.admin).greet()
-      ).to.equal("Bonjour, le monde!");
+        await this.cryptoSouvenirs.connect(this.signers.admin).symbol()
+      ).to.equal("CSV");
     });
   });
 });
