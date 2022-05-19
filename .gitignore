@@ -67,3 +67,15 @@ node_modules/
 
 # MacOS
 .DS_Store
+
+# Visual Studio Temp files
+.vs/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+build/
+app.publish/
+[Bb]in/
+[Oo]bj/
