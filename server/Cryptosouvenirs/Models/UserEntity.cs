@@ -9,8 +9,8 @@ public class UserEntity : ITableEntity
     public string RowKey { get; set; }
     public DateTimeOffset? Timestamp { get; set; }
     public ETag ETag { get; set; }
-    public float Longitude { get; set; }
-    public float Latitude { get; set; }
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
 
     public UserEntity(string partitionKey, string rowKey)
     {
