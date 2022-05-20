@@ -10,7 +10,8 @@ error AlreadySold();
 contract CryptoSouvenirs is ERC721Enumerable, Ownable {
     using Strings for uint256;
 
-    string baseURI;
+    uint256 public cost = 0.05 ether;
+    string private baseURI;
 
     constructor(
         string memory _name,
@@ -22,6 +23,11 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
 
     function mint(uint256 _tokenId) public payable {
         require(!_exists(_tokenId), "This NFT is already minted");
+        
+        if  (msg.sender != owner()) {
+            require(msg.value >= cost);
+        }
+
 
         _safeMint(msg.sender, _tokenId);
     }
@@ -39,5 +45,10 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
 
     function setBaseURI(string memory _newBaseURI) public onlyOwner {
         baseURI = _newBaseURI;
+    }
+
+    function withdraw() public payable onlyOwner {  
+        (bool os, ) = payable(owner()).call{value: address(this).balance}("");
+        require(os);
     }
 }
