@@ -1,7 +1,12 @@
 {
   "name": "crypto-souvenirs",
   "scripts": {
-    "lint": "cd functions && npm run lint"
+    "bootstrap": "npm install && (cd blockchain && npm install)",
+    "bootstrap:ci": "npm ci && (cd blockchain && npm ci)",
+    "lint": "npm run lint --prefix blockchain",
+    "build": "npm run compile --prefix blockchain",
+    "build:prod": "npm run compile --prefix blockchain",
+    "test": "npm test --prefix blockchain"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",

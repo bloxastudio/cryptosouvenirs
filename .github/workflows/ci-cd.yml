@@ -1,0 +1,22 @@
+name: CI/CD
+
+on: push
+
+jobs:
+  ci_cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm run bootstrap:ci
+
+      - name: Lint projects
+        run: npm run lint
+
+      - name: Build projects
+        run: npm run build:prod
+
+      - name: Test projects
+        run: npm test
