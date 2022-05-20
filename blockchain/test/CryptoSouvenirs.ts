@@ -17,15 +17,16 @@ describe("Unit tests", function () {
     beforeEach(async function () {
       const name = "CryptoSouvenirsNFT";
       const symbol = "CSV";
+      const baseUri = "ipfs://asdasd123/";
       const cryptoSouvenirsArtifact: Artifact = await artifacts.readArtifact(
         "CryptoSouvenirs"
       );
-      console.log(this.cryptoSouvenirs);
+      //console.log(this.cryptoSouvenirs);
       this.cryptoSouvenirs = <CryptoSouvenirs>(
         await waffle.deployContract(
           this.signers.admin,
           cryptoSouvenirsArtifact,
-          [name, symbol]
+          [name, symbol, baseUri]
         )
       );
     });
@@ -38,6 +39,24 @@ describe("Unit tests", function () {
       expect(
         await this.cryptoSouvenirs.connect(this.signers.admin).symbol()
       ).to.equal("CSV");
+    });
+
+    it("should return the correct token Uri", async function () {
+      await this.cryptoSouvenirs.connect(this.signers.admin).mint(1);
+      await this.cryptoSouvenirs.connect(this.signers.admin).mint(2);
+      await this.cryptoSouvenirs.connect(this.signers.admin).mint(3);
+
+      expect(
+        await this.cryptoSouvenirs.connect(this.signers.admin).tokenURI(1)
+      ).to.equal("ipfs://asdasd123/1.json");
+
+      expect(
+        await this.cryptoSouvenirs.connect(this.signers.admin).tokenURI(2)
+      ).to.equal("ipfs://asdasd123/2.json");
+
+      expect(
+        await this.cryptoSouvenirs.connect(this.signers.admin).tokenURI(3)
+      ).to.equal("ipfs://asdasd123/3.json");
     });
   });
 });
