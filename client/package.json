@@ -5,11 +5,23 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "eslint": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore --ext .js,.ts .",
+    "eslint:fix": "eslint --config ./.eslintrc.js --ignore-path ./.eslintignore --ext .js,.ts . --fix",
+    "lint": "npm run eslint && npm run prettier:check",
+    "lint:fix": "npm run eslint:fix",
+    "prettier": "prettier --config ./.prettierrc --write \"**/*.{js,json,md,ts}\"",
+    "prettier:check": "prettier --check --config ./.prettierrc \"**/*.{js,json,md,ts}\""
   },
   "dependencies": {
     "@mantine/core": "^4.2.5",
     "@mantine/hooks": "^4.2.5",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
+    "eslint": "^8.16.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
