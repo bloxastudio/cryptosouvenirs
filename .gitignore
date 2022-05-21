@@ -79,3 +79,9 @@ build/
 app.publish/
 [Bb]in/
 [Oo]bj/
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.sln.ide/
