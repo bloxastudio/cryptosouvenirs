@@ -12,7 +12,7 @@ public class GeoLocation
     }
 
     /// <summary>
-    /// Gives back distance it meters.
+    /// Gives back distance in meters.
     /// </summary>
     public double CalculateDistance(double latitude, double longitude)
     {
