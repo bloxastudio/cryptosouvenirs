@@ -44,4 +44,24 @@ public class AvailableNftsApiController : ControllerBase
 
         return Ok(filteredNfts);
     }
+
+    [HttpPost("can-buy-nft")]
+    public async Task<IActionResult> CanBuyNft([FromBody] CanBuyNftApiModel model)
+    {
+        if (string.IsNullOrEmpty(model.WalletId) || string.IsNullOrEmpty(model.NftId))
+            return BadRequest($"{nameof(model.WalletId)} and {nameof(model.NftId)} is required.");
+
+        var user = await (await _tableStorageService
+            .RunQueryAsync<UserEntity>(user => user.RowKey == model.WalletId, Tables.User))
+            .FirstOrDefaultAsync(user => user.Timestamp.Value.AddMinutes(10) >= DateTime.UtcNow);
+
+        if (user == null) return BadRequest();
+
+        var nft = await _tableStorageService.GetEntityAsync<NftEntity>(Tables.Nft, Tables.Nft, model.NftId);
+
+        var userLocation = new GeoLocation(user.Latitude, user.Longitude);
+        return userLocation.CalculateDistance(nft.Latitude, nft.Longitude) <= _geoLocationOptions.MaximumDistanceInMeters
+            ? Ok()
+            : BadRequest();
+    }
 }
