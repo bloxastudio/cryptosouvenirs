@@ -25,9 +25,8 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
         require(!_exists(_tokenId), "This NFT is already minted");
         
         if  (msg.sender != owner()) {
-            require(msg.value >= cost);
+            require(msg.value >= cost, "Not enough funds");
         }
-
 
         _safeMint(msg.sender, _tokenId);
     }
@@ -37,6 +36,10 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
 
         string memory currentBaseURI = _baseURI();
         return bytes(currentBaseURI).length > 0 ? string(abi.encodePacked(currentBaseURI, tokenId.toString(), ".json")) : "";
+    }
+
+    function setCost(uint256 _value) external onlyOwner {
+        cost = _value;
     }
 
    function _baseURI() internal view override returns (string memory) {
@@ -49,6 +52,6 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
 
     function withdraw() public payable onlyOwner {  
         (bool os, ) = payable(owner()).call{value: address(this).balance}("");
-        require(os);
+        require(os, "There was a problem during the transaction");
     }
 }
