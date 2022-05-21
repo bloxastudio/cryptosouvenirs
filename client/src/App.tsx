@@ -1,6 +1,7 @@
 import "react";
-import { AppShell, Text, Header, MantineProvider, Container } from "@mantine/core";
+import { AppShell, Text, Header, MantineProvider } from "@mantine/core";
 import "./App.css";
+import AppRoutes from "./routes";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
           },
         })}
       >
-        <Container>{"Hello Dear World"}</Container>
+        <AppRoutes />
       </AppShell>
     </MantineProvider>
   );
