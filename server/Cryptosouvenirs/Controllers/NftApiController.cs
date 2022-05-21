@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace Cryptosouvenirs.Controllers;
 
-[Route("api/available-nfts")]
+[Route("api/")]
 [ApiController]
 public class AvailableNftsApiController : ControllerBase
 {
@@ -21,8 +21,8 @@ public class AvailableNftsApiController : ControllerBase
         _geoLocationOptions = geoLocationOptions.Value;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Post([FromBody] NftApiModel model)
+    [HttpPost("available-nfts")]
+    public async Task<IActionResult> AvailableNfts([FromBody] AvailableNftApiModel model)
     {
         if (string.IsNullOrEmpty(model.WalletId)) return BadRequest($"{nameof(model.WalletId)} is required.");
 
