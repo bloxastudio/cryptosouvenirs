@@ -1,6 +1,6 @@
 import "react";
 import { Routes, Route } from "react-router-dom";
-import Main from "../views/Main";
+import Main from "@pages/Main";
 
 const AppRoutes = () => {
   return (
