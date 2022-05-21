@@ -6,14 +6,14 @@ using Microsoft.Extensions.Options;
 
 namespace Cryptosouvenirs.Controllers;
 
-[Route("api/")]
+[Route("api")]
 [ApiController]
-public class AvailableNftsApiController : ControllerBase
+public class ApiController : ControllerBase
 {
     private readonly ITableStorageService _tableStorageService;
     private readonly GeoLocationOptions _geoLocationOptions;
 
-    public AvailableNftsApiController(
+    public ApiController(
         ITableStorageService tableStorageService,
         IOptionsSnapshot<GeoLocationOptions> geoLocationOptions)
     {
@@ -24,8 +24,6 @@ public class AvailableNftsApiController : ControllerBase
     [HttpPost("available-nfts")]
     public async Task<IActionResult> AvailableNfts([FromBody] AvailableNftApiModel model)
     {
-        if (string.IsNullOrEmpty(model.WalletId)) return BadRequest($"{nameof(model.WalletId)} is required.");
-
         var user = new UserEntity(Tables.User, model.WalletId)
         {
             Latitude = model.Latitude,
@@ -48,9 +46,6 @@ public class AvailableNftsApiController : ControllerBase
     [HttpPost("can-buy-nft")]
     public async Task<IActionResult> CanBuyNft([FromBody] CanBuyNftApiModel model)
     {
-        if (string.IsNullOrEmpty(model.WalletId) || string.IsNullOrEmpty(model.NftId))
-            return BadRequest($"{nameof(model.WalletId)} and {nameof(model.NftId)} is required.");
-
         var user = await (await _tableStorageService
             .RunQueryAsync<UserEntity>(user => user.RowKey == model.WalletId, Tables.User))
             .FirstOrDefaultAsync(user => user.Timestamp.Value.AddMinutes(10) >= DateTime.UtcNow);
