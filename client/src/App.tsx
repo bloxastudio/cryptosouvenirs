@@ -1,45 +1,31 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from "react";
+import logo from "./logo.svg";
+import { AppShell, Text, Header, MantineProvider, Container } from "@mantine/core";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+    <MantineProvider theme={{ colorScheme: "dark" }}>
+      <AppShell
+        header={
+          <Header height={60} p="xs">
+            <Text size="xl" color={"indigo"}>
+              {"Cryptosouvenirs"}
+            </Text>
+          </Header>
+        }
+        styles={(theme) => ({
+          main: {
+            minHeight: `calc(100vh - 60px)`,
+            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.colors.gray[0],
+            color: theme.colorScheme === "dark" ? theme.colors.gray[0] : theme.colors.gray[8],
+          },
+        })}
+      >
+        <Container>{"Hello Dear World"}</Container>
+      </AppShell>
+    </MantineProvider>
+  );
 }
 
-export default App
+export default App;
