@@ -1,5 +1,6 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
+import { BigNumber } from "ethers";
 import { artifacts, ethers, waffle } from "hardhat";
 import type { Artifact } from "hardhat/types";
 import type { CryptoSouvenirs } from "../src/types";
@@ -58,5 +59,17 @@ describe("Unit tests", function () {
         await this.cryptoSouvenirs.connect(this.signers.admin).tokenURI(3)
       ).to.equal("ipfs://asdasd123/3.json");
     });
+
+    it("cost should be set to 0.4", async function () {
+      expect(
+        await (await this.cryptoSouvenirs.connect(this.signers.admin).cost()).toString()
+      ).to.equal('50000000000000000');
+
+      await this.cryptoSouvenirs.connect(this.signers.admin).setCost('40000000000000000');
+
+      expect(
+        await this.cryptoSouvenirs.connect(this.signers.admin).cost()
+      ).to.equal('40000000000000000');
+    })
   });
 });
