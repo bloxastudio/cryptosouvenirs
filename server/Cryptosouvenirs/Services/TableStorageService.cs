@@ -55,7 +55,7 @@ public class TableStorageService : ITableStorageService
 
     private async Task<TableClient> GetTableClientAsync(string tableName)
     {
-        var serviceClient = new TableServiceClient(_configuration["StorageConnectionString"]);
+        var serviceClient = new TableServiceClient(_configuration["ConnectionStrings:StorageConnectionString"]);
         var tableClient = serviceClient.GetTableClient(tableName);
         await tableClient.CreateIfNotExistsAsync();
         return tableClient;
