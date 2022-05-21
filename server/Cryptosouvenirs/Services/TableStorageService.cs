@@ -1,3 +1,4 @@
+using Azure;
 using Azure.Data.Tables;
 
 namespace Cryptosouvenirs.Services;
@@ -8,7 +9,7 @@ public class TableStorageService : ITableStorageService
 
     public TableStorageService(IConfiguration configuration) => _configuration = configuration;
 
-    public async Task<List<TEntity>> GetAllEntitiesAsync<TEntity>(string tableName)
+    public async Task<IList<TEntity>> GetAllEntitiesAsync<TEntity>(string tableName)
         where TEntity : class, ITableEntity, new()
     {
         var tableClient = await GetTableClientAsync(tableName);
