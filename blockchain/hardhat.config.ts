@@ -19,7 +19,7 @@ const chainIds = {
 
 const config: HardhatUserConfig = {
   solidity: "0.8.13",
-  defaultNetwork: "rinkeby",
+  defaultNetwork: "hardhat",
   networks: {
     hardhat: {
       chainId: chainIds.hardhat,
