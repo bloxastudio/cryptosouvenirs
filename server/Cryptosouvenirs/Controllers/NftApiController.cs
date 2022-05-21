@@ -24,6 +24,8 @@ public class AvailableNftsApiController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] NftApiModel model)
     {
+        if (string.IsNullOrEmpty(model.WalletId)) return BadRequest($"{nameof(model.WalletId)} is required.");
+
         var user = new UserEntity(Tables.User, model.WalletId)
         {
             Latitude = model.Latitude,
