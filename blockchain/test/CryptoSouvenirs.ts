@@ -62,7 +62,7 @@ describe("Unit tests", function () {
 
     it("cost should be set to 0.4", async function () {
       expect(
-        await (await this.cryptoSouvenirs.connect(this.signers.admin).cost()).toString()
+        await this.cryptoSouvenirs.connect(this.signers.admin).cost()
       ).to.equal('50000000000000000');
 
       await this.cryptoSouvenirs.connect(this.signers.admin).setCost('40000000000000000');
