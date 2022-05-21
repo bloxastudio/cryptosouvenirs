@@ -1,5 +1,6 @@
 using Azure;
 using Azure.Data.Tables;
+using System.Linq.Expressions;
 
 namespace Cryptosouvenirs.Services;
 
@@ -41,6 +42,15 @@ public class TableStorageService : ITableStorageService
     {
         var tableClient = await GetTableClientAsync(tableName);
         await tableClient.DeleteEntityAsync(partitionKey, rowKey);
+    }
+
+    public async Task<AsyncPageable<TEntity>> RunQueryAsync<TEntity>(
+        Expression<Func<TEntity, bool>> filter,
+        string tableName)
+        where TEntity : class, ITableEntity, new()
+    {
+        var tableClient = await GetTableClientAsync(tableName);
+        return tableClient.QueryAsync(filter);
     }
 
     private async Task<TableClient> GetTableClientAsync(string tableName)

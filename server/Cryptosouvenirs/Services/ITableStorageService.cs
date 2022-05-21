@@ -1,5 +1,6 @@
 using Azure;
 using Azure.Data.Tables;
+using System.Linq.Expressions;
 
 namespace Cryptosouvenirs.Services;
 
@@ -44,4 +45,19 @@ public interface ITableStorageService
     /// <param name="partitionKey">The partitionKey that identifies the table entity.</param>
     /// <param name="rowKey">The rowKey that identifies the table entity.</param>
     Task DeleteEntityAsync(string tableName, string partitionKey, string rowKey);
+
+    /// <summary>
+    /// Queries entities in the table.
+    /// </summary>
+    /// <typeparam name="TEntity">A custom model type that implements <see cref="ITableEntity" />.</typeparam>
+    /// <param name="filter">
+    /// Returns only entities that satisfy the specified filter expression. For example, the following expression would
+    /// filter entities with a PartitionKey of 'foo': <c>e => e.PartitionKey == "foo"</c>.
+    /// </param>
+    /// <returns>An <see cref="AsyncPageable{TEntity}"/> containing a collection of entity models serialized as type
+    /// <typeparamref name="TEntity"/>.</returns>
+    Task<AsyncPageable<TEntity>> RunQueryAsync<TEntity>(
+        Expression<Func<TEntity, bool>> filter,
+        string tableName)
+        where TEntity : class, ITableEntity, new();
 }
