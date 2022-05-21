@@ -1,5 +1,4 @@
-import { useState } from "react";
-import logo from "./logo.svg";
+import "react";
 import { AppShell, Text, Header, MantineProvider, Container } from "@mantine/core";
 import "./App.css";
 
