@@ -1,12 +1,11 @@
-import Web3EthContract from "web3-eth-contract";
+import { CryptoSouvenirs } from "./../../../blockchain/src/types/contracts/CryptoSouvenirs";
 import Web3 from "web3";
 import CONFIG from "../config.json";
-import abi from "../abi.json";
+import { abi } from "../../../blockchain/build/artifacts/contracts/CryptoSouvenirs.sol/CryptoSouvenirs.json";
 
 export const connectToMetamask = async (provider: any) => {
   const metamaskIsInstalled = provider && provider.isMetaMask;
   if (metamaskIsInstalled) {
-    Web3EthContract.setProvider(provider);
     const web3 = new Web3(provider);
 
     try {
@@ -18,7 +17,10 @@ export const connectToMetamask = async (provider: any) => {
       });
       console.log("net_version: ", networkId);
       if (String(networkId) === String(CONFIG.NETWORK.ID)) {
-        const smartContract = new Web3EthContract(abi, CONFIG.CONTRACT_ADDRESS);
+        const smartContract = new web3.eth.Contract(
+          abi,
+          CONFIG.CONTRACT_ADDRESS
+        ) as CryptoSouvenirs;
 
         return {
           accounts,

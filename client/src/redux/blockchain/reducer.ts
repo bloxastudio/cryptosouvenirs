@@ -1,9 +1,10 @@
 import { Action } from "redux";
+import { CryptoSouvenirs } from "../../../../blockchain/src/types/contracts/CryptoSouvenirs";
 
 export interface BlockchainState {
   loading: boolean;
   account: any;
-  smartContract: any;
+  smartContract: CryptoSouvenirs | null;
   web3: any;
   errorMsg: string;
 }

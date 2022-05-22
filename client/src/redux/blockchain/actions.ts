@@ -60,6 +60,7 @@ export const connect = () => {
       // Add listeners end
     } catch (error) {
       if (error instanceof Error) {
+        console.error(error);
         dispatch(connectFailed(error.message));
       }
     }

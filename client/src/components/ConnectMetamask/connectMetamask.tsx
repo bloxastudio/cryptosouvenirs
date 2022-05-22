@@ -15,12 +15,21 @@ const Connector = () => {
     dispatch(connect() as any);
   }, []);
 
+  const isConnected = !!blockchain.smartContract;
+  console.log(blockchain);
+
   return (
     <Paper className={classes.root} shadow="md" p="lg" my="lg">
-      <Text>{`Connect to the ${CONFIG.NETWORK.NAME} network`}</Text>
-      <Button uppercase type="button" size="lg" variant="gradient" gradient={{ from: "indigo", to: "cyan" }} onClick={handleConnect}>
-        Connect
-      </Button>
+      {!isConnected ? (
+        <>
+          <Text>{`Connect to the ${CONFIG.NETWORK.NAME} network`}</Text>
+          <Button uppercase type="button" size="lg" variant="gradient" gradient={{ from: "indigo", to: "cyan" }} onClick={handleConnect}>
+            {"Connect"}
+          </Button>
+        </>
+      ) : (
+        <Text>{`Connected to the  ${CONFIG.NETWORK.NAME} network`}</Text>
+      )}
       {blockchain.errorMsg !== "" && (
         <Text mt="lg" align="center" color="red">
           {blockchain.errorMsg}
