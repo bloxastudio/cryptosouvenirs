@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: GPL-3
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.14;
 
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -23,26 +23,44 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
 
     function mint(uint256 _tokenId) public payable {
         require(!_exists(_tokenId), "This NFT is already minted");
-        
-        if  (msg.sender != owner()) {
+
+        if (msg.sender != owner()) {
             require(msg.value >= cost, "Not enough funds");
         }
 
         _safeMint(msg.sender, _tokenId);
     }
 
-    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
-        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
+        require(
+            _exists(tokenId),
+            "ERC721Metadata: URI query for nonexistent token"
+        );
 
         string memory currentBaseURI = _baseURI();
-        return bytes(currentBaseURI).length > 0 ? string(abi.encodePacked(currentBaseURI, tokenId.toString(), ".json")) : "";
+        return
+            bytes(currentBaseURI).length > 0
+                ? string(
+                    abi.encodePacked(
+                        currentBaseURI,
+                        tokenId.toString(),
+                        ".json"
+                    )
+                )
+                : "";
     }
 
     function setCost(uint256 _value) external onlyOwner {
         cost = _value;
     }
 
-   function _baseURI() internal view override returns (string memory) {
+    function _baseURI() internal view override returns (string memory) {
         return baseURI;
     }
 
@@ -50,7 +68,7 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
         baseURI = _newBaseURI;
     }
 
-    function withdraw() public payable onlyOwner {  
+    function withdraw() public payable onlyOwner {
         (bool os, ) = payable(owner()).call{value: address(this).balance}("");
         require(os, "There was a problem during the transaction");
     }

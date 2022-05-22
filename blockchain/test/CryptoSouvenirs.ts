@@ -1,9 +1,8 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import { expect } from "chai";
-import { BigNumber } from "ethers";
 import { artifacts, ethers, waffle } from "hardhat";
 import type { Artifact } from "hardhat/types";
-import type { CryptoSouvenirs } from "../src/types";
+import type { CryptoSouvenirs } from "../build/types";
 import { Signers } from "./types";
 
 describe("Unit tests", function () {
@@ -68,9 +67,9 @@ describe("Unit tests", function () {
 
       expect(
         await this.cryptoSouvenirs.connect(this.signers.admin).cost()
-      ).to.equal(oldPrice);
+      ).to.equal('50000000000000000');
 
-      await this.cryptoSouvenirs.connect(this.signers.admin).setCost(newPrice);
+      await this.cryptoSouvenirs.connect(this.signers.admin).setCost('40000000000000000');
 
       expect(
         await this.cryptoSouvenirs.connect(this.signers.admin).cost()

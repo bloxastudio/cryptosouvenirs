@@ -8,7 +8,6 @@ import { resolve } from "path";
 import "solidity-coverage";
 import "./tasks/accounts";
 import "./tasks/deploy";
-require('dotenv').config();
 
 dotenvConfig({ path: resolve(__dirname, "./.env") });
 
@@ -17,20 +16,24 @@ const chainIds = {
   rinkeby: 4,
 };
 
+const enableRinkeby = process.env.ALCHEMY_RINKEBY_URL;
+
 const config: HardhatUserConfig = {
-  solidity: "0.8.13",
+  solidity: "0.8.14",
   defaultNetwork: "hardhat",
+  paths: {
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./build/cache",
+    artifacts: "./build/artifacts",
+  },
   networks: {
     hardhat: {
       chainId: chainIds.hardhat,
     },
-    rinkeby: {
-      url: `${process.env.ALCHEMY_RINKEBY_URL}`,
-      accounts: [`${process.env.RINKEBY_PRIVATE_KEY}`],
-    }
   },
   typechain: {
-    outDir: "src/types",
+    outDir: "./build/types",
     target: "ethers-v5",
   },
   gasReporter: {
@@ -40,5 +43,12 @@ const config: HardhatUserConfig = {
     src: "./contracts",
   },
 };
+
+if (enableRinkeby && config.networks) {
+  config.networks.rinkeby = {
+    url: `${process.env.ALCHEMY_RINKEBY_URL}`,
+    accounts: [`${process.env.PRIVATE_KEY}`],
+  };
+}
 
 export default config;

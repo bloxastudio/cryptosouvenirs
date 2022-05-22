@@ -26,5 +26,15 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     }
-  }
+  },
+  "solidity.formatter": "prettier",
+  "[solidity]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "JuanBlanco.solidity"
+  },
+  "solidity.defaultCompiler": "remote",
+  "solidity.compileUsingRemoteVersion": "v0.8.14+commit.80d49f37",
+  "solidity.packageDefaultDependenciesContractsDirectory": "",
+  "solidity.packageDefaultDependenciesDirectory": "blockchain/node_modules",
+  "solidity.enabledAsYouTypeCompilationErrorCheck": true
 }
