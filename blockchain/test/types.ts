@@ -1,6 +1,6 @@
 import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signer-with-address";
 import type { Fixture } from "ethereum-waffle";
-import type { CryptoSouvenirs } from "../src/types";
+import type { CryptoSouvenirs } from "../build/types";
 
 declare module "mocha" {
   export interface Context {
@@ -12,4 +12,5 @@ declare module "mocha" {
 
 export interface Signers {
   admin: SignerWithAddress;
+  randomGuy: SignerWithAddress;
 }
