@@ -2,6 +2,7 @@ import "react";
 import * as Head from "@components/Head";
 import { Container, Stack, Center, Title, createStyles } from "@mantine/core";
 import GrabLocation from "@components/GrabLocation";
+import ConnectMetamask from "@components/ConnectMetamask";
 
 export const Main = () => {
   const { classes } = useStyles();
@@ -14,6 +15,7 @@ export const Main = () => {
           <Title className={classes.headline}>{`Tell use your location to see the NFTs in your area.`}</Title>
         </Center>
         <GrabLocation />
+        <ConnectMetamask />
       </Stack>
     </Container>
   );

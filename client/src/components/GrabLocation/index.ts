@@ -1,1 +1,1 @@
-export { default } from "./grabLocation"
+export { default } from "./grabLocation";
