@@ -12,6 +12,7 @@ describe("Unit tests", function () {
 
     const signers: SignerWithAddress[] = await ethers.getSigners();
     this.signers.admin = signers[0];
+    this.signers.randomGuy = signers[1];
   });
 
   describe("CryptoSouvenirs", function () {
@@ -61,15 +62,37 @@ describe("Unit tests", function () {
     });
 
     it("cost should be set to 0.4", async function () {
-      expect(
-        await this.cryptoSouvenirs.connect(this.signers.admin).cost()
-      ).to.equal('50000000000000000');
 
-      await this.cryptoSouvenirs.connect(this.signers.admin).setCost('40000000000000000');
+      const oldPrice = ethers.utils.parseEther("0.05");
+      const newPrice = ethers.utils.parseEther("0.04");
 
       expect(
         await this.cryptoSouvenirs.connect(this.signers.admin).cost()
-      ).to.equal('40000000000000000');
+      ).to.equal(oldPrice);
+
+      await this.cryptoSouvenirs.connect(this.signers.admin).setCost(newPrice);
+
+      expect(
+        await this.cryptoSouvenirs.connect(this.signers.admin).cost()
+      ).to.equal(newPrice);
     })
+
+    it("should mint one badge to the random guy", async function () {
+      expect(
+        await this.cryptoSouvenirs.balanceOf(
+          this.signers.randomGuy.address,
+        )
+      ).to.equal(0);
+
+      await this.cryptoSouvenirs.connect(this.signers.randomGuy).mint(1, {
+        value: ethers.utils.parseEther("0.05"),
+      });
+
+      expect(
+        await this.cryptoSouvenirs.balanceOf(
+          this.signers.randomGuy.address,
+        )
+      ).to.equal(1);
+    });
   });
 });
