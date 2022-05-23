@@ -82,20 +82,23 @@ describe("Unit tests", function () {
     });
 
     it("contract should have the correct balance after withdraw", async function () {
-      expect(await ethers.provider.getBalance(this.cryptoSouvenirs.address)
-        ).to.equal(0);
+      expect(
+        await ethers.provider.getBalance(this.cryptoSouvenirs.address)
+      ).to.equal(0);
 
       await this.cryptoSouvenirs.connect(this.signers.randomGuy).mint(1, {
         value: ethers.utils.parseEther("0.05"),
       });
 
-      expect(await ethers.provider.getBalance(this.cryptoSouvenirs.address)
-        ).to.equal(ethers.utils.parseEther("0.05"));
-    
+      expect(
+        await ethers.provider.getBalance(this.cryptoSouvenirs.address)
+      ).to.equal(ethers.utils.parseEther("0.05"));
+
       await this.cryptoSouvenirs.withdraw();
 
-      expect(await ethers.provider.getBalance(this.cryptoSouvenirs.address)
-        ).to.equal(0);
+      expect(
+        await ethers.provider.getBalance(this.cryptoSouvenirs.address)
+      ).to.equal(0);
     });
   });
 });
