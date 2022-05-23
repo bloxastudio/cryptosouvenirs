@@ -1,8 +1,8 @@
 {
   "name": "crypto-souvenirs",
   "scripts": {
-    "bootstrap": "npm install && npm install --prefix blockchain && npm install --prefix server",
-    "bootstrap:ci": "npm ci && npm ci --prefix blockchain && npm ci --prefix server",
+    "bootstrap": "npm install && concurrently \"cd blockchain && npm install\" \"cd server && npm install\"",
+    "bootstrap:ci": "npm ci && concurrently \"cd blockchain && npm ci\" \"cd server && npm ci\"",
     "lint": "npm run lint --prefix blockchain",
     "build": "npm run compile --prefix blockchain && npm run build --prefix server",
     "build:prod": "npm run compile --prefix blockchain && npm run publish --prefix server",
@@ -13,6 +13,7 @@
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
+    "concurrently": "^7.2.1",
     "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
