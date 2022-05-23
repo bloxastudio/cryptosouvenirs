@@ -1,3 +1,4 @@
+using Azure;
 using Cryptosouvenirs.Constants;
 using Cryptosouvenirs.Models;
 using Cryptosouvenirs.Services;
@@ -52,7 +53,15 @@ public class ApiController : ControllerBase
 
         if (user == null) return BadRequest();
 
-        var nft = await _tableStorageService.GetEntityAsync<NftEntity>(Tables.Nft, Tables.Nft, model.NftId);
+        NftEntity nft;
+        try
+        {
+            nft = await _tableStorageService.GetEntityAsync<NftEntity>(Tables.Nft, Tables.Nft, model.NftId);
+        }
+        catch (RequestFailedException)
+        {
+            return BadRequest();
+        }
 
         var userLocation = new GeoLocation(user.Latitude, user.Longitude);
         return userLocation.CalculateDistance(nft.Latitude, nft.Longitude) <= _geoLocationOptions.MaximumDistanceInMeters
