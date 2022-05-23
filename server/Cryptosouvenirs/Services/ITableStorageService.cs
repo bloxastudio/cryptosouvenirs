@@ -19,7 +19,7 @@ public interface ITableStorageService
 
     /// <summary>
     /// Returns the <typeparamref name="TEntity"/> model from <paramref name="tableName"/> table with the given
-    /// <paramref name="partitionKey"/> and <paramref name="rowKey"/>
+    /// <paramref name="partitionKey"/> and <paramref name="rowKey"/>.
     /// </summary>
     /// <typeparam name="TEntity">A custom model type that implements <see cref="ITableEntity" />.</typeparam>
     /// <param name="partitionKey">Currently it should be the same as the <paramref name="tableName"/>.</param>
