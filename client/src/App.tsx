@@ -1,6 +1,5 @@
 import "react";
 import { AppShell, Text, Header, MantineProvider } from "@mantine/core";
-import "./App.css";
 import AppRoutes from "./routes";
 
 function App() {
