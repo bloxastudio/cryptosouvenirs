@@ -1,0 +1,11 @@
+{
+  "name": "crypto-souvenirs-server",
+  "scripts": {
+    "build": "dotnet build Cryptosouvenirs.sln",
+    "analyze": "dotnet build Cryptosouvenirs.sln --no-incremental -warnaserror /p:TreatWarningsAsErrors=true /p:RunAnalyzersDuringBuild=true -noWarn:CS1573,CS1591",
+    "start": "dotnet run --project Cryptosouvenirs",
+    "publish": "dotnet publish ./Cryptosouvenirs/Cryptosouvenirs.csproj --configuration Release --output ./build/release --framework net6.0 /nodeReuse:false /p:Retries=4 /p:RetryDelayMilliseconds=1000"
+  },
+  "private": true
+}
+
