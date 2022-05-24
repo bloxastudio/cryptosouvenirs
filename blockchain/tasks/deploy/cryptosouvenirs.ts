@@ -1,7 +1,7 @@
 import { task } from "hardhat/config";
 import { TaskArguments } from "hardhat/types";
-import { CryptoSouvenirs } from "../../src/types";
-import { CryptoSouvenirs__factory } from "../../src/types";
+import { CryptoSouvenirs } from "../../build/types";
+import { CryptoSouvenirs__factory } from "../../build/types";
 
 task("deploy:CryptoSouvenirs").setAction(async function (
   _: TaskArguments,
@@ -13,11 +13,26 @@ task("deploy:CryptoSouvenirs").setAction(async function (
 
   const name = "CryptoSouvenirsNFT";
   const symbol = "CSV";
-  const greeting = "Hello, world!";
+  const metaDataBaseCID =
+    "ipfs://bafybeiba3qnetumkewxiga2avah4tqcei5nn5bh2ceb756plvkn23kmcsq/";
+
   const cryptoSouvenirs: CryptoSouvenirs = <CryptoSouvenirs>(
-    await cryptoSouvenirsFactory.deploy(name, symbol, greeting)
+    await cryptoSouvenirsFactory.deploy(name, symbol, metaDataBaseCID)
   );
   await cryptoSouvenirs.deployed();
 
-  console.log("Greeter deployed to: ", cryptoSouvenirs.address);
+  console.log("CryptoSouvenirs deployed to: ", cryptoSouvenirs.address);
+
+  await cryptoSouvenirs.mint(1);
+
+  await cryptoSouvenirs.mint(2);
+
+  await cryptoSouvenirs.mint(3);
+
+  await cryptoSouvenirs.mint(4);
+
+  console.log(await cryptoSouvenirs.tokenURI(1));
+  console.log(await cryptoSouvenirs.tokenURI(2));
+  console.log(await cryptoSouvenirs.tokenURI(3));
+  console.log(await cryptoSouvenirs.tokenURI(4));
 });
