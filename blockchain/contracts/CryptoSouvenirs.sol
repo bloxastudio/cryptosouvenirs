@@ -14,7 +14,7 @@ error TokenDoesNotExists();
 /// Custom error if funds are not enough.
 error NotEnoughFunds();
 
-///Custom error if problem occurs during transaction.
+/// Custom error if problem occurs during transaction.
 error ProblemDuringTransaction();
 
 contract CryptoSouvenirs is ERC721Enumerable, Ownable {

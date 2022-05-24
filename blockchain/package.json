@@ -56,5 +56,8 @@
     "typechain": "^8.0.0",
     "typescript": "^4.6.2"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "crypto-souvenirs": "file:.."
+  }
 }
