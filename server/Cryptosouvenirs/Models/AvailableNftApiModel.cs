@@ -12,4 +12,7 @@ public class AvailableNftApiModel
 
     [Required]
     public double Longitude { get; set; }
+
+    [Required]
+    public string SignedLocation { get; set; }
 }

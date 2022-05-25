@@ -4,6 +4,8 @@ using Cryptosouvenirs.Models;
 using Cryptosouvenirs.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Nethereum.Signer;
+using System.Globalization;
 
 namespace Cryptosouvenirs.Controllers;
 
@@ -25,6 +27,12 @@ public class ApiController : ControllerBase
     [HttpPost("available-nfts")]
     public async Task<IActionResult> AvailableNfts([FromBody] AvailableNftApiModel model)
     {
+        var text = $"{model.Latitude.ToString(CultureInfo.InvariantCulture)},{model.Longitude.ToString(CultureInfo.InvariantCulture)}";
+        var signer = new EthereumMessageSigner();
+        var account = signer.HashAndEcRecover(text, model.SignedLocation);
+
+        if (account == model.WalletId) return BadRequest();
+
         var user = new UserEntity(Tables.User, model.WalletId)
         {
             Latitude = model.Latitude,
