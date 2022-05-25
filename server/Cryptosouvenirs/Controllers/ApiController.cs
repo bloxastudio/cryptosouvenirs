@@ -31,7 +31,7 @@ public class ApiController : ControllerBase
         var signer = new EthereumMessageSigner();
         var account = signer.HashAndEcRecover(text, model.SignedLocation);
 
-        if (account == model.WalletId) return BadRequest();
+        if (account != model.WalletId) return BadRequest();
 
         var user = new UserEntity(Tables.User, model.WalletId)
         {
