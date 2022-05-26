@@ -1,6 +1,5 @@
 import "react";
-import { AppShell, Text, Header, MantineProvider } from "@mantine/core";
-import "./App.css";
+import { AppShell, Text, Header, MantineProvider, Global } from "@mantine/core";
 import AppRoutes from "./routes";
 
 function App() {
@@ -22,6 +21,21 @@ function App() {
           },
         })}
       >
+        <Global
+          styles={(theme) => ({
+            body: {
+              margin: 0,
+              fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif`,
+              WebkitFontSmoothing: "antialiased",
+              MozOsxFontSmoothing: "grayscale",
+            },
+            code: {
+              fontFamily: `source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace`,
+            },
+          })}
+        />
         <AppRoutes />
       </AppShell>
     </MantineProvider>

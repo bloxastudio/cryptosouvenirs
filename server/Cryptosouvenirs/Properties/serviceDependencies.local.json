@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "storage1": {
+      "containerPorts": "10002:10002",
+      "containerName": "azuriteEmulatorContainer",
+      "containerImage": "mcr.microsoft.com/azure-storage/azurite",
+      "type": "storage.container",
+      "connectionId": "StorageConnectionString"
+    }
+  }
+}
