@@ -5,7 +5,17 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-error AlreadySold();
+/// Custom error if a token with a given ID is already minted.
+error AlreadyMinted();
+
+/// Custom error if a token with a given ID does not exists.
+error TokenDoesNotExists();
+
+/// Custom error if funds are not enough.
+error NotEnoughFunds();
+
+/// Custom error if problem occurs during transaction.
+error ProblemDuringTransaction();
 
 contract CryptoSouvenirs is ERC721Enumerable, Ownable {
     using Strings for uint256;
@@ -22,10 +32,10 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
     }
 
     function mint(uint256 _tokenId) public payable {
-        require(!_exists(_tokenId), "This NFT is already minted");
+        if (_exists(_tokenId)) revert AlreadyMinted();
 
         if (msg.sender != owner()) {
-            require(msg.value >= cost, "Not enough funds");
+            if (msg.value < cost) revert NotEnoughFunds();
         }
 
         _safeMint(msg.sender, _tokenId);
@@ -38,10 +48,7 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
         override
         returns (string memory)
     {
-        require(
-            _exists(tokenId),
-            "ERC721Metadata: URI query for nonexistent token"
-        );
+        if (!_exists(tokenId)) revert TokenDoesNotExists();
 
         string memory currentBaseURI = _baseURI();
         return
@@ -70,6 +77,6 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
 
     function withdraw() public payable onlyOwner {
         (bool os, ) = payable(owner()).call{value: address(this).balance}("");
-        require(os, "There was a problem during the transaction");
+        if (!os) revert ProblemDuringTransaction();
     }
 }

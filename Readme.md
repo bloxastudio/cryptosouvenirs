@@ -1,7 +1,6 @@
 # CryptoSouvenirs
 
 Location-based NFT minting app for travelers to buy a unique NFT of the cities they are currently visiting.
-
 ## Quick Start
 
 Before you start working run the `npm run bootstrap` and `npm run build` commands in the root folder.
