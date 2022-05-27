@@ -59,7 +59,7 @@ public class ApiController : Controller
         var canBuy = false;
         var user = await (await _tableStorageService
             .RunQueryAsync<UserEntity>(user => user.RowKey == walletId, Tables.User))
-            .FirstOrDefaultAsync(user => user.Timestamp.Value.AddMinutes(10) >= DateTime.UtcNow);
+            .FirstOrDefaultAsync(user => user.Timestamp.Value.AddMinutes(_geoLocationOptions.MaxMinutesElapsed) >= DateTime.UtcNow);
 
         if (user == null) return Json(new { canBuy });
 
