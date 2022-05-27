@@ -80,7 +80,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         content: "''",
         height: 100,
         position: "absolute",
-        background: theme.colors.dark[8],
+        background: theme.colors.dark[7],
         transform: "rotate(-45deg)",
       },
       [`& .${getRef("iconLine")}`]: {
@@ -124,7 +124,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         height: 85,
         position: "absolute",
         transform: "rotate(-45deg)",
-        backgroundColor: theme.colors.dark[8],
+        backgroundColor: theme.colors.dark[7],
       },
     },
     "@keyframes rotateCircle": {

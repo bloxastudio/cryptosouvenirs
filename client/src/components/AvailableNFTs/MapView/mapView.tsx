@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from "react-leaf
 
 const MapView = (props: MapViewProps) => {
   const { nfts, userPosition } = props;
-  const userCoords = [userPosition.coords.latitude + 0.01, userPosition.coords.longitude];
+  const userCoords = [userPosition.coords.latitude, userPosition.coords.longitude];
 
   return (
     <MapContainer center={userCoords} zoom={13} scrollWheelZoom={false} style={{ height: "100vh", width: "100wh" }}>
