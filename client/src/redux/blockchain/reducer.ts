@@ -1,5 +1,5 @@
 import { Action } from "redux";
-import { CryptoSouvenirs } from "../../../../blockchain/src/types/contracts/CryptoSouvenirs";
+import { CryptoSouvenirs } from "../../../../blockchain/build/types/contracts/CryptoSouvenirs";
 
 export interface BlockchainState {
   loading: boolean;

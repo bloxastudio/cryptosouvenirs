@@ -21,3 +21,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+// API models
+interface AvailableNFT {
+  rowKey: string;
+  latitude: number;
+  longitude: number;
+}

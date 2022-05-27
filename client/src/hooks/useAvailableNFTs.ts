@@ -71,9 +71,3 @@ const areSamePositions = (a: GeolocationPosition, b: GeolocationPosition) => {
 export interface useAvailableNFTsProps {
   position: GeolocationPosition | null;
 }
-
-export interface AvailableNFT {
-  id: number;
-  latitude: number;
-  longitude: number;
-}

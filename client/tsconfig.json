@@ -21,7 +21,8 @@
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],
       "@redux/*": ["src/redux/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@models/*": ["src/models/*"]
     }
   },
   "include": ["src"],
