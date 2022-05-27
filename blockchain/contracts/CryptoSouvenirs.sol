@@ -25,8 +25,13 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable, ChainlinkClient {
     uint256 public cost = 0.05 ether;
     string private baseURI;
     bytes32 private jobId;
-    bool private canBuy;
+    bool public canBuy;
+    bool public transactionSuccessful;
     uint256 private fee;
+    mapping(bytes32 => address) private walletMapping;
+    mapping(bytes32 => uint256) private tokenMapping;
+    address public currentAddress;
+    uint256 public currentToken;
 
     event RequestIfTokenCanBeBought(bytes32 indexed requestId, bool canBuy);
 
@@ -37,22 +42,10 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable, ChainlinkClient {
     ) ERC721(_name, _symbol) {
         setBaseURI(_initialBaseURI);
 
-        setChainlinkToken(0xa36085F69e2889c224210F603D836748e7dC0088);
-        setChainlinkOracle(0x74EcC8Bdeb76F2C6760eD2dc8A46ca5e581fA656);
-        jobId = "c1c5e92880894eb6b27d3cae19670aa3";
+        setChainlinkToken(0x01BE23585060835E02B77ef475b0Cc51aA1e0709);
+        setChainlinkOracle(0x3A56aE4a2831C3d3514b5D7Af5578E45eBDb7a40);
+        jobId = "99e99d6e82be464a9e4b6acc55bbcf14";
         fee = (1 * LINK_DIVISIBILITY) / 10;
-    }
-
-    function mint(uint256 _tokenId) public payable {
-        if (_exists(_tokenId)) revert AlreadyMinted();
-
-        if (msg.sender != owner()) {
-            if (msg.value < cost) revert NotEnoughFunds();
-        }
-
-        requestLocation(_tokenId);
-
-        _safeMint(msg.sender, _tokenId);
     }
 
     function tokenURI(uint256 tokenId)
@@ -77,10 +70,13 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable, ChainlinkClient {
                 : "";
     }
 
-    function requestLocation(uint256 _tokenId)
-        public
-        returns (bytes32 requestId)
-    {
+    function mint(uint256 _tokenId) public payable returns (bytes32 requestId) {
+        if (_exists(_tokenId)) revert AlreadyMinted();
+
+        if (msg.sender != owner()) {
+            if (msg.value < cost) revert NotEnoughFunds();
+        }
+
         Chainlink.Request memory req = buildChainlinkRequest(
             jobId,
             address(this),
@@ -89,19 +85,13 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable, ChainlinkClient {
 
         req.add(
             "get",
-            string(
-                abi.encodePacked(
-                    "https://localhost:5001/api/can-buy-nft?WalletId=",
-                    msg.sender,
-                    "&NftId=",
-                    _tokenId
-                )
-            )
+            "https://cryptosouvenirs.azurewebsites.net/api/can-buy-nft?walletId=0x431db28c8a25BD26DE6f299DA47F0C26217DE452&nftId=1"
         );
-
         req.add("path", "canBuy");
-
-        return sendChainlinkRequest(req, fee);
+        bytes32 _requestId = sendChainlinkRequest(req, fee);
+        walletMapping[_requestId] = msg.sender;
+        tokenMapping[_requestId] = _tokenId;
+        return _requestId;
     }
 
     function fulfill(bytes32 _requestId, bool _canBuy)
@@ -109,7 +99,13 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable, ChainlinkClient {
         recordChainlinkFulfillment(_requestId)
     {
         emit RequestIfTokenCanBeBought(_requestId, _canBuy);
+        transactionSuccessful = true;
         canBuy = _canBuy;
+        currentAddress = walletMapping[_requestId];
+        currentToken = tokenMapping[_requestId];
+        if (_canBuy) {
+            _safeMint(walletMapping[_requestId], tokenMapping[_requestId]);
+        }
     }
 
     function setCost(uint256 _value) external onlyOwner {
