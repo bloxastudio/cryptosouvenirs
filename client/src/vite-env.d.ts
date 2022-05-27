@@ -13,3 +13,11 @@ class Web3EthContract {
 declare module "web3-eth-contract" {
   export = Web3EthContract;
 }
+
+interface ImportMetaEnv {
+  readonly VITE_BACKEND_URL: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
