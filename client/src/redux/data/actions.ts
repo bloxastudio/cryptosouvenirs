@@ -22,6 +22,13 @@ const fetchDataFailed = (payload: any) => {
   };
 };
 
+export const setPosition = (payload: any) => {
+  return {
+    type: "SET_POSITION",
+    payload,
+  };
+};
+
 export const fetchData = () => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchDataRequest());

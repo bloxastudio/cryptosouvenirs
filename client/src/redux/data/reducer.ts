@@ -6,6 +6,7 @@ export interface DataState {
   cost: number;
   error: boolean;
   errorMsg: string;
+  position: GeolocationPosition | null;
 }
 
 const initialState: DataState = {
@@ -14,6 +15,7 @@ const initialState: DataState = {
   cost: 0,
   error: false,
   errorMsg: "",
+  position: null,
 };
 
 const dataReducer = (
@@ -43,6 +45,11 @@ const dataReducer = (
         loading: false,
         error: true,
         errorMsg: action.payload,
+      };
+    case "SET_POSITION":
+      return {
+        ...initialState,
+        position: action.payload,
       };
     default:
       return state;

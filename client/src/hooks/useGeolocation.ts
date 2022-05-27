@@ -1,22 +1,26 @@
 import { useState, useEffect } from "react";
 
-export interface UseGeolocationProps {
-  enabled: boolean;
-}
-
 export const useGeolocation = (props: UseGeolocationProps) => {
-  const { enabled } = props;
+  const { enabled, onChange } = props;
   const [position, setPosition] = useState<GeolocationPosition | null>(null);
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
     if (enabled && navigator.geolocation) {
+      const onSuccess = (_position: GeolocationPosition) => {
+        setPosition(_position);
+
+        if (onChange) {
+          onChange(_position);
+        }
+      };
+
       const onError = (error: GeolocationPositionError) =>
         setError(error.message);
 
-      navigator.geolocation.getCurrentPosition(setPosition, onError);
+      // navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
-      const watchId = navigator.geolocation.watchPosition(setPosition, onError);
+      const watchId = navigator.geolocation.watchPosition(onSuccess, onError);
       return () => navigator.geolocation.clearWatch(watchId);
     }
   }, [enabled]);
@@ -26,3 +30,8 @@ export const useGeolocation = (props: UseGeolocationProps) => {
     error,
   };
 };
+
+export interface UseGeolocationProps {
+  enabled: boolean;
+  onChange: (position: GeolocationPosition) => void;
+}

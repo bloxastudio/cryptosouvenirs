@@ -3,9 +3,8 @@ import { CryptoSouvenirs } from "../../../../blockchain/src/types/contracts/Cryp
 
 export interface BlockchainState {
   loading: boolean;
-  account: any;
+  account: string | null;
   smartContract: CryptoSouvenirs | null;
-  web3: any;
   errorMsg: string;
 }
 
@@ -13,7 +12,6 @@ const initialState: BlockchainState = {
   loading: false,
   account: null,
   smartContract: null,
-  web3: null,
   errorMsg: "",
 };
 
@@ -28,14 +26,13 @@ const blockchainReducer = (
         loading: true,
       };
     case "CONNECTION_SUCCESS": {
-      const { account, smartContract, web3 } = action.payload;
+      const { account, smartContract } = action.payload;
 
       return {
         ...state,
         loading: false,
         account,
         smartContract,
-        web3,
       };
     }
     case "CONNECTION_FAILED":

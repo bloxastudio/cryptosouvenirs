@@ -1,4 +1,4 @@
-import { Action, Dispatch } from "redux";
+import { Action } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { connectToMetamask } from "@utils/metamask";
 import { fetchData } from "../data/actions";
@@ -36,25 +36,20 @@ export const connect = () => {
     dispatch(connectRequest());
 
     try {
-      const { ethereum } = window;
-
-      const { accounts, smartContract, web3 } = await connectToMetamask(
-        ethereum
-      );
+      const { accounts, smartContract } = await connectToMetamask();
 
       dispatch(
         connectSuccess({
           account: accounts[0],
           smartContract,
-          web3: web3,
         })
       );
 
       // Add listeners start
-      ethereum.on("accountsChanged", (accounts: any[]) => {
+      window.ethereum.on("accountsChanged", (accounts: any[]) => {
         dispatch(updateAccount(accounts[0]));
       });
-      ethereum.on("chainChanged", () => {
+      window.ethereum.on("chainChanged", () => {
         window.location.reload();
       });
       // Add listeners end

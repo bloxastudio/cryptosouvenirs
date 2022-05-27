@@ -6,6 +6,7 @@ import * as Head from "@components/Head";
 import GrabLocation from "@components/GrabLocation";
 import ConnectMetamask from "@components/ConnectMetamask";
 import { AppState } from "@redux/store";
+import AvailableNFTs from "@components/AvailableNFTs";
 
 export const Main = () => {
   const { classes } = useStyles();
@@ -39,6 +40,7 @@ export const Main = () => {
               <Title className={classes.headline}>{`Tell us your location to see the NFTs in your area.`}</Title>
             </Center>
             <GrabLocation />
+            <AvailableNFTs />
           </>
         )}
       </Stack>

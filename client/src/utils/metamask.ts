@@ -1,31 +1,28 @@
-import { CryptoSouvenirs } from "./../../../blockchain/src/types/contracts/CryptoSouvenirs";
-import Web3 from "web3";
+import { ethers } from "ethers";
 import CONFIG from "../config.json";
 import { abi } from "../../../blockchain/build/artifacts/contracts/CryptoSouvenirs.sol/CryptoSouvenirs.json";
 
-export const connectToMetamask = async (provider: any) => {
-  const metamaskIsInstalled = provider && provider.isMetaMask;
+export const connectToMetamask = async () => {
+  const metamaskIsInstalled = window.ethereum && window.ethereum.isMetaMask;
   if (metamaskIsInstalled) {
-    const web3 = new Web3(provider);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     try {
-      const accounts = await provider.request({
-        method: "eth_requestAccounts",
-      });
-      const networkId = await provider.request({
-        method: "net_version",
-      });
+      const accounts: string[] = await provider.send("eth_requestAccounts", []);
+      const networkId: string = await provider.send("net_version", []);
+
       console.log("net_version: ", networkId);
+
       if (String(networkId) === String(CONFIG.NETWORK.ID)) {
-        const smartContract = new web3.eth.Contract(
+        const smartContract = new ethers.Contract(
+          CONFIG.CONTRACT_ADDRESS,
           abi,
-          CONFIG.CONTRACT_ADDRESS
-        ) as CryptoSouvenirs;
+          provider
+        );
 
         return {
           accounts,
           smartContract,
-          web3,
         };
       } else {
         throw new Error(`Change network to ${CONFIG.NETWORK.NAME}.`);
