@@ -33,7 +33,7 @@ if (app.Environment.IsDevelopment())
         new NftEntity(Tables.Nft, "3") { Latitude = 35.652832, Longitude = 139.839478 });
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.MapControllers();
 
