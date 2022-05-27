@@ -10,7 +10,7 @@ export const useAvailableNFTs = (props: useAvailableNFTsProps) => {
   const [loading, setLoading] = useState(false);
   const previousPositionRef = useRef<GeolocationPosition | null>(position);
 
-  const [{ data, error }, executeAvailableNFTs] = useAxios(
+  const [{ data, error }, executeAvailableNFTs] = useAxios<Array<AvailableNFT>>(
     {
       url: "/available-nfts",
       method: "POST",
@@ -70,4 +70,10 @@ const areSamePositions = (a: GeolocationPosition, b: GeolocationPosition) => {
 
 export interface useAvailableNFTsProps {
   position: GeolocationPosition | null;
+}
+
+export interface AvailableNFT {
+  id: number;
+  latitude: number;
+  longitude: number;
 }

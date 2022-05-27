@@ -32,22 +32,22 @@ export const setPosition = (payload: any) => {
 export const fetchData = () => {
   return async (dispatch: Dispatch) => {
     dispatch(fetchDataRequest());
-    try {
-      const totalSupply = await store
-        .getState()
-        .blockchain.smartContract.methods.totalSupply()
-        .call();
-      // let cost = await store
-      //   .getState()
-      //   .blockchain.smartContract.methods.cost()
-      //   .call();
 
-      dispatch(
-        fetchDataSuccess({
-          totalSupply,
-          // cost,
-        })
-      );
+    try {
+      const { blockchain } = store.getState();
+
+      if (blockchain.smartContract) {
+        const totalSupply = await blockchain.smartContract.totalSupply();
+
+        // const cost = blockchain.smartContract.methods.cost().call();
+
+        dispatch(
+          fetchDataSuccess({
+            totalSupply,
+            // cost,
+          })
+        );
+      }
     } catch (error) {
       console.log(error);
       dispatch(fetchDataFailed("Could not load data from contract."));
