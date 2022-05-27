@@ -85,8 +85,16 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable, ChainlinkClient {
 
         req.add(
             "get",
-            "https://cryptosouvenirs.azurewebsites.net/api/can-buy-nft?walletId=0x431db28c8a25BD26DE6f299DA47F0C26217DE452&nftId=1"
+            string(
+                abi.encodePacked(
+                    "https://cryptosouvenirs.azurewebsites.net/api/can-buy-nft?walletId=",
+                    msg.sender,
+                    "&nftId=",
+                    _tokenId
+                )
+            )
         );
+
         req.add("path", "canBuy");
         bytes32 _requestId = sendChainlinkRequest(req, fee);
         walletMapping[_requestId] = msg.sender;
