@@ -1,0 +1,18 @@
+{
+  "CONTRACT_ADDRESS": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+  "SCAN_LINK": "https://mumbai.polygonscan.com/address/0x440de80e6BfC36380EB51C1F449c4650096D2233",
+  "NETWORK": {
+    "NAME": "Localhost 8545",
+    "SYMBOL": "Matic",
+    "ID": 1337
+  },
+  "NFT_NAME": "NFTPrototype",
+  "SYMBOL": "NFTP",
+  "MAX_SUPPLY": 10000,
+  "WEI_COST": 50000000000000000,
+  "DISPLAY_COST": 0.05,
+  "GAS_LIMIT": 285000,
+  "MARKETPLACE": "Opeansea",
+  "MARKETPLACE_LINK": "https://testnets.opensea.io/collection/cryptosouvenirs",
+  "SHOW_BACKGROUND": false
+}
