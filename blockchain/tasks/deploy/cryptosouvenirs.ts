@@ -14,7 +14,7 @@ task("deploy:CryptoSouvenirs").setAction(async function (
   const name = "CryptoSouvenirsNFT";
   const symbol = "CSV";
   const metaDataBaseCID =
-    "ipfs://bafybeiba3qnetumkewxiga2avah4tqcei5nn5bh2ceb756plvkn23kmcsq/";
+    "ipfs://QmVmmBLSL7XsYm58sQVNPkfQWafEpk26ZcuvuzxTKjDbme/";
 
   const cryptoSouvenirs: CryptoSouvenirs = <CryptoSouvenirs>(
     await cryptoSouvenirsFactory.deploy(name, symbol, metaDataBaseCID)
