@@ -9,7 +9,7 @@ namespace Cryptosouvenirs.Controllers;
 
 [Route("api")]
 [ApiController]
-public class ApiController : ControllerBase
+public class ApiController : Controller
 {
     private readonly ITableStorageService _tableStorageService;
     private readonly GeoLocationOptions _geoLocationOptions;
@@ -44,28 +44,33 @@ public class ApiController : ControllerBase
         return Ok(filteredNfts);
     }
 
-    [HttpPost("can-buy-nft")]
-    public async Task<IActionResult> CanBuyNft([FromBody] CanBuyNftApiModel model)
+    [HttpGet("can-buy-nft")]
+    public async Task<IActionResult> CanBuyNft(string walletId, string nftId)
     {
+        var canBuy = false;
         var user = await (await _tableStorageService
-            .RunQueryAsync<UserEntity>(user => user.RowKey == model.WalletId, Tables.User))
+            .RunQueryAsync<UserEntity>(user => user.RowKey == walletId, Tables.User))
             .FirstOrDefaultAsync(user => user.Timestamp.Value.AddMinutes(10) >= DateTime.UtcNow);
 
-        if (user == null) return BadRequest();
+        if (user == null) return Json(new { canBuy });
 
         NftEntity nft;
         try
         {
-            nft = await _tableStorageService.GetEntityAsync<NftEntity>(Tables.Nft, Tables.Nft, model.NftId);
+            nft = await _tableStorageService.GetEntityAsync<NftEntity>(Tables.Nft, Tables.Nft, nftId);
         }
         catch (RequestFailedException)
         {
-            return BadRequest();
+            return Json(new { canBuy });
         }
 
         var userLocation = new GeoLocation(user.Latitude, user.Longitude);
-        return userLocation.CalculateDistance(nft.Latitude, nft.Longitude) <= _geoLocationOptions.MaximumDistanceInMeters
-            ? Ok()
-            : BadRequest();
+
+        if (userLocation.CalculateDistance(nft.Latitude, nft.Longitude) <= _geoLocationOptions.MaximumDistanceInMeters)
+        {
+            canBuy = true;
+        }
+
+        return Json(new { canBuy});
     }
 }
