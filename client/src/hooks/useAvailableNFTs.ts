@@ -12,7 +12,7 @@ export const useAvailableNFTs = (props: useAvailableNFTsProps) => {
 
   const [{ data, error }, executeAvailableNFTs] = useAxios<Array<AvailableNFT>>(
     {
-      url: "/available-nfts",
+      url: "https://cryptosouvenirs.azurewebsites.net/api/available-nfts",
       method: "POST",
     },
     { manual: true }
