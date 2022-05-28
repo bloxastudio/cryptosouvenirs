@@ -3,7 +3,7 @@
   "scripts": {
     "bootstrap": "npm install && concurrently \"cd blockchain && npm install\" \"cd server && npm install\" \"cd client && npm install\"",
     "bootstrap:ci": "npm ci && concurrently \"cd blockchain && npm ci\" \"cd server && npm ci\" \"cd client && npm ci\"",
-    "lint": "npm run lint --prefix blockchain && npm run lint --prefix client",
+    "lint": "npm run lint --prefix blockchain",
     "build": "npm run compile --prefix blockchain && npm run build --prefix server && npm run build --prefix client",
     "build:prod": "npm run compile --prefix blockchain && npm run publish --prefix server && npm run build --prefix client",
     "test": "npm test --prefix blockchain"
