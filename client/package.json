@@ -14,24 +14,40 @@
     "prettier:check": "prettier --check --config ./.prettierrc \"**/*.{js,json,md,ts}\""
   },
   "dependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
     "@mantine/core": "^4.2.5",
     "@mantine/hooks": "^4.2.5",
+    "@metamask/eth-sig-util": "^4.0.1",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
+    "axios": "^0.27.2",
+    "axios-hooks": "^3.0.4",
+    "classnames": "^2.3.1",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "ethers": "^5.6.8",
+    "leaflet": "^1.8.0",
     "prettier": "^2.6.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-helmet-async": "^1.3.0",
+    "react-leaflet": "^4.0.0",
+    "react-redux": "^8.0.1",
     "react-router-dom": "^6.3.0",
-    "vite-tsconfig-paths": "^3.4.1"
+    "react-simple-maps": "^2.3.0",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.1",
+    "tabler-icons-react": "^1.48.0",
+    "vite-tsconfig-paths": "^3.4.1",
+    "web3": "^1.7.3",
+    "web3-eth-contract": "^1.7.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.0",
+    "redux-devtools-extension": "^2.13.9",
     "typescript": "^4.6.3",
     "vite": "^2.9.9"
   }

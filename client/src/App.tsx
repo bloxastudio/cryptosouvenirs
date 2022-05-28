@@ -1,6 +1,7 @@
 import "react";
 import { AppShell, Text, Header, MantineProvider, Global } from "@mantine/core";
 import AppRoutes from "./routes";
+import { Link } from "react-router-dom";
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
         header={
           <Header height={60} p="xs">
             <Text size="xl" color={"indigo"}>
-              {"Cryptosouvenirs"}
+              <Link to={"/"}>{"Cryptosouvenirs"}</Link>
             </Text>
           </Header>
         }
@@ -33,6 +34,13 @@ function App() {
             },
             code: {
               fontFamily: `source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace`,
+            },
+            a: {
+              textDecoration: "none",
+              color: theme.colors.indigo[5],
+              "&:hover": {
+                color: theme.colors.indigo[3],
+              },
             },
           })}
         />

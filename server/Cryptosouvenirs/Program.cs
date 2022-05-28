@@ -4,6 +4,16 @@ using Cryptosouvenirs.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+        });
+
+});
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -31,6 +41,9 @@ if (app.Environment.IsDevelopment())
     await tableStorageService.UpsertEntityAsync(
         Tables.Nft,
         new NftEntity(Tables.Nft, "3") { Latitude = 35.652832, Longitude = 139.839478 });
+
+    // Add CORS to endpoints
+    app.UseCors();
 }
 
 //app.UseHttpsRedirection();
