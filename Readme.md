@@ -4,6 +4,8 @@ Location-based NFT minting app for travelers to buy a unique NFT of the cities t
 
 **👉 Learn more about the project on our Chainlink Hackathon 2022 project submission [here](https://devpost.com/software/cryptosouvenirs).**
 
+You can find the token metadata and artwork in the _assets/tokens_ folder.
+
 ## Quick Start
 
 Before you start working run the `npm run bootstrap` and `npm run build` commands in the root folder.
