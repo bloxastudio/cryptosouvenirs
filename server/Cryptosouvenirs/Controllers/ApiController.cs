@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Nethereum.Signer;
 using System.Globalization;
+using Nethereum.Util;
 
 namespace Cryptosouvenirs.Controllers;
 
@@ -31,7 +32,7 @@ public class ApiController : ControllerBase
         var signer = new EthereumMessageSigner();
         var account = signer.HashAndEcRecover(text, model.SignedLocation);
 
-        if (account != model.WalletId) return BadRequest();
+        if (!account.IsTheSameAddress(model.WalletId)) return BadRequest();
 
         var user = new UserEntity(Tables.User, model.WalletId)
         {
