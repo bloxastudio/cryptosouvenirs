@@ -1,0 +1,18 @@
+{
+  "CONTRACT_ADDRESS": "0x7Fd8A638B6b155FADA4064A3F14F8b9EB4C2Aa1f",
+  "SCAN_LINK": "https://rinkeby.etherscan.io/address/0x7Fd8A638B6b155FADA4064A3F14F8b9EB4C2Aa1f",
+  "NETWORK": {
+    "NAME": "Rinkeby",
+    "SYMBOL": "ETH",
+    "ID": 4
+  },
+  "NFT_NAME": "NFTPrototype",
+  "SYMBOL": "NFTP",
+  "MAX_SUPPLY": 10000,
+  "WEI_COST": 50000000000000000,
+  "DISPLAY_COST": 0.05,
+  "GAS_LIMIT": 285000,
+  "MARKETPLACE": "Opeansea",
+  "MARKETPLACE_LINK": "https://testnets.opensea.io/collection/cryptosouvenirs",
+  "SHOW_BACKGROUND": false
+}

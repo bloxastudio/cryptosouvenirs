@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Nethereum.Signer;
 using System.Globalization;
+using Nethereum.Util;
 
 namespace Cryptosouvenirs.Controllers;
 
 [Route("api")]
 [ApiController]
-public class ApiController : ControllerBase
+public class ApiController : Controller
 {
     private readonly ITableStorageService _tableStorageService;
     private readonly GeoLocationOptions _geoLocationOptions;
@@ -31,7 +32,7 @@ public class ApiController : ControllerBase
         var signer = new EthereumMessageSigner();
         var account = signer.HashAndEcRecover(text, model.SignedLocation);
 
-        if (account != model.WalletId) return BadRequest();
+        if (!account.IsTheSameAddress(model.WalletId)) return BadRequest();
 
         var user = new UserEntity(Tables.User, model.WalletId)
         {
@@ -52,28 +53,33 @@ public class ApiController : ControllerBase
         return Ok(filteredNfts);
     }
 
-    [HttpPost("can-buy-nft")]
-    public async Task<IActionResult> CanBuyNft([FromBody] CanBuyNftApiModel model)
+    [HttpGet("can-buy-nft")]
+    public async Task<IActionResult> CanBuyNft(string walletId, string nftId)
     {
+        var canBuy = false;
         var user = await (await _tableStorageService
-            .RunQueryAsync<UserEntity>(user => user.RowKey == model.WalletId, Tables.User))
-            .FirstOrDefaultAsync(user => user.Timestamp.Value.AddMinutes(10) >= DateTime.UtcNow);
+            .RunQueryAsync<UserEntity>(user => user.RowKey == walletId, Tables.User))
+            .FirstOrDefaultAsync(user => user.Timestamp.Value.AddMinutes(_geoLocationOptions.MaxMinutesElapsed) >= DateTime.UtcNow);
 
-        if (user == null) return BadRequest();
+        if (user == null) return Json(new { canBuy });
 
         NftEntity nft;
         try
         {
-            nft = await _tableStorageService.GetEntityAsync<NftEntity>(Tables.Nft, Tables.Nft, model.NftId);
+            nft = await _tableStorageService.GetEntityAsync<NftEntity>(Tables.Nft, Tables.Nft, nftId);
         }
         catch (RequestFailedException)
         {
-            return BadRequest();
+            return Json(new { canBuy });
         }
 
         var userLocation = new GeoLocation(user.Latitude, user.Longitude);
-        return userLocation.CalculateDistance(nft.Latitude, nft.Longitude) <= _geoLocationOptions.MaximumDistanceInMeters
-            ? Ok()
-            : BadRequest();
+
+        if (userLocation.CalculateDistance(nft.Latitude, nft.Longitude) <= _geoLocationOptions.MaximumDistanceInMeters)
+        {
+            canBuy = true;
+        }
+
+        return Json(new { canBuy});
     }
 }

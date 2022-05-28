@@ -85,3 +85,6 @@ app.publish/
 *.user
 *.sln.docstates
 *.sln.ide/
+
+# Azurite plugin generated files
+__azurite_db_table__.json

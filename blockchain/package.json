@@ -58,6 +58,7 @@
   },
   "private": true,
   "dependencies": {
+    "@chainlink/contracts": "^0.4.1",
     "crypto-souvenirs": "file:.."
   }
 }

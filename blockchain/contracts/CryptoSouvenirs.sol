@@ -4,6 +4,7 @@ pragma solidity ^0.8.14;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@chainlink/contracts/src/v0.8/ChainlinkClient.sol";
 
 /// Custom error if a token with a given ID is already minted.
 error AlreadyMinted();
@@ -17,11 +18,22 @@ error NotEnoughFunds();
 /// Custom error if problem occurs during transaction.
 error ProblemDuringTransaction();
 
-contract CryptoSouvenirs is ERC721Enumerable, Ownable {
+contract CryptoSouvenirs is ERC721Enumerable, Ownable, ChainlinkClient {
+    using Chainlink for Chainlink.Request;
     using Strings for uint256;
 
     uint256 public cost = 0.05 ether;
     string private baseURI;
+    bytes32 private jobId;
+    bool public canBuy;
+    bool public transactionSuccessful;
+    uint256 private fee;
+    mapping(bytes32 => address) private walletMapping;
+    mapping(bytes32 => uint256) private tokenMapping;
+    address public currentAddress;
+    uint256 public currentToken;
+
+    event RequestIfTokenCanBeBought(bytes32 indexed requestId, bool canBuy);
 
     constructor(
         string memory _name,
@@ -29,16 +41,11 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
         string memory _initialBaseURI
     ) ERC721(_name, _symbol) {
         setBaseURI(_initialBaseURI);
-    }
 
-    function mint(uint256 _tokenId) public payable {
-        if (_exists(_tokenId)) revert AlreadyMinted();
-
-        if (msg.sender != owner()) {
-            if (msg.value < cost) revert NotEnoughFunds();
-        }
-
-        _safeMint(msg.sender, _tokenId);
+        setChainlinkToken(0x01BE23585060835E02B77ef475b0Cc51aA1e0709);
+        setChainlinkOracle(0x3A56aE4a2831C3d3514b5D7Af5578E45eBDb7a40);
+        jobId = "99e99d6e82be464a9e4b6acc55bbcf14";
+        fee = (1 * LINK_DIVISIBILITY) / 10;
     }
 
     function tokenURI(uint256 tokenId)
@@ -61,6 +68,52 @@ contract CryptoSouvenirs is ERC721Enumerable, Ownable {
                     )
                 )
                 : "";
+    }
+
+    function mint(uint256 _tokenId) public payable returns (bytes32 requestId) {
+        if (_exists(_tokenId)) revert AlreadyMinted();
+
+        if (msg.sender != owner()) {
+            if (msg.value < cost) revert NotEnoughFunds();
+        }
+
+        Chainlink.Request memory req = buildChainlinkRequest(
+            jobId,
+            address(this),
+            this.fulfill.selector
+        );
+
+        req.add(
+            "get",
+            string(
+                abi.encodePacked(
+                    "https://cryptosouvenirs.azurewebsites.net/api/can-buy-nft?walletId=",
+                    msg.sender,
+                    "&nftId=",
+                    _tokenId
+                )
+            )
+        );
+
+        req.add("path", "canBuy");
+        bytes32 _requestId = sendChainlinkRequest(req, fee);
+        walletMapping[_requestId] = msg.sender;
+        tokenMapping[_requestId] = _tokenId;
+        return _requestId;
+    }
+
+    function fulfill(bytes32 _requestId, bool _canBuy)
+        public
+        recordChainlinkFulfillment(_requestId)
+    {
+        emit RequestIfTokenCanBeBought(_requestId, _canBuy);
+        transactionSuccessful = true;
+        canBuy = _canBuy;
+        currentAddress = walletMapping[_requestId];
+        currentToken = tokenMapping[_requestId];
+        if (_canBuy) {
+            _safeMint(walletMapping[_requestId], tokenMapping[_requestId]);
+        }
     }
 
     function setCost(uint256 _value) external onlyOwner {

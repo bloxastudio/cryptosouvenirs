@@ -1,6 +1,9 @@
 # CryptoSouvenirs
 
 Location-based NFT minting app for travelers to buy a unique NFT of the cities they are currently visiting.
+
+**👉 Learn more about the project on our Chainlink Hackathon 2022 project submission [here](https://devpost.com/software/cryptosouvenirs).**
+
 ## Quick Start
 
 Before you start working run the `npm run bootstrap` and `npm run build` commands in the root folder.
@@ -17,3 +20,7 @@ If you want to deploy to Rinkeby, then fill out the `ALCHEMY_RINKEBY_URL` and `P
 
 1. Go to _blockchain_ and run `npm run start`.
 2. Open a new terminal, then run `npm run deploy`.
+
+### Server app for the APIs and location storage
+
+Go to [the server app's Readme](./server/Readme.md).

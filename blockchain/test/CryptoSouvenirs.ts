@@ -22,7 +22,6 @@ describe("Unit tests", function () {
       const cryptoSouvenirsArtifact: Artifact = await artifacts.readArtifact(
         "CryptoSouvenirs"
       );
-
       this.cryptoSouvenirs = <CryptoSouvenirs>(
         await waffle.deployContract(
           this.signers.admin,
