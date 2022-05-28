@@ -82,8 +82,8 @@ const AvailableNFTs = () => {
             </Table>
           </>
         ) : (
-          <div>
-            <MapView nfts={data} userPosition={position} />
+          <div style={{ zIndex: 0 }}>
+            <MapView nfts={data} userPosition={position} onClick={(availableNFT) => setSelectedNFT(availableNFT)} />
           </div>
         )
       ) : (
